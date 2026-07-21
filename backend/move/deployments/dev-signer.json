@@ -1,0 +1,12 @@
+{
+  "generatedAt": "2026-05-27T21:39:37.059Z",
+  "pubkeyHex": "2a5d722651643c66c28cfb6cdfdb79a144411de2e2d1c977702e9b0d68592c02",
+  "pubkeyForMoveArg": "0x2a5d722651643c66c28cfb6cdfdb79a144411de2e2d1c977702e9b0d68592c02",
+  "registrationCommand": "sui client call\n  --package <PACKAGE_ID>\n  --module registry\n  --function allow_dev_signer\n  --args <ADMIN_CAP> <PRODUCT_ID> 0x2a5d722651643c66c28cfb6cdfdb79a144411de2e2d1c977702e9b0d68592c02\n  --gas-budget 50000000",
+  "notes": [
+    "Private key (INTERLOCK_DEV_SIGNER_PRIVKEY) lives in .env.local only — gitignored.",
+    "The /api/verify route reads this env var and signs AttestationPayload bytes with it.",
+    "The Move verify_dev_attestations function uses the pubkey to verify.",
+    "To rotate: re-run this script, register the new pubkey, then revoke the old one."
+  ]
+}

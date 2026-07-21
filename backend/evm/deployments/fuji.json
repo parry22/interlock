@@ -1,0 +1,37 @@
+{
+  "network": "fuji",
+  "chainId": 43113,
+  "rpc": "https://api.avax-test.network/ext/bc/C/rpc",
+  "deployedAt": "2026-07-05T04:30:00Z",
+  "version": "v2 — adds resolveDispute (admin arbitration: refund or dismiss)",
+  "deployer": "0x584b37cA94889a0cd905c9e8dB3670bbBCDE73bD",
+  "contracts": {
+    "mockUSDC": {
+      "address": "0x598279AE42F7A55aB2Ef7a081c9CA11C7b572F79",
+      "note": "Demo-only 6-decimal ERC20 with open mint. Swap for real Fuji USDC (0x5425890298aed601595a70AB815c96711a31Bc65) at deploy time by setting USDC_ADDRESS."
+    },
+    "interlockRegistry": { "address": "0x70D64db680ACF0F477a74b9f0e9F587904D331d5" },
+    "interlockCore": { "address": "0x27C23b7921ACf27fb2E3778C9A13436A0a8ac947" }
+  },
+  "previous": {
+    "note": "v1 (no dispute resolution — a filed dispute froze escrow permanently). Do not use.",
+    "interlockCore": "0x7B9DB9548998F4C5a93c46F5DF7163b61a94E252",
+    "interlockRegistry": "0xe805E956436Fd63E57419307235488D96C56b969",
+    "mockUSDC": "0xfD0e0E3a643620edc5e98c25Dee97c3E771A5293"
+  },
+  "seed": {
+    "productId": 1,
+    "productSlug": "hackathon-demo",
+    "agentCompany": "0x584b37cA94889a0cd905c9e8dB3670bbBCDE73bD",
+    "feeBps": 500,
+    "feeCapUsdc6": 10000000,
+    "feeMaxBps": 1000,
+    "minAttestations": 1,
+    "failurePolicy": "FAILURE_FULL_REFUND",
+    "devSigner": "0x584b37cA94889a0cd905c9e8dB3670bbBCDE73bD",
+    "modelProvider": "0x584b37cA94889a0cd905c9e8dB3670bbBCDE73bD",
+    "toolProvider": "0x584b37cA94889a0cd905c9e8dB3670bbBCDE73bD"
+  },
+  "note": "All three payout roles seeded to the deployer address for the demo. Register distinct addresses via InterlockRegistry.registerProvider before running a real multi-party settlement demo.",
+  "explorerBase": "https://testnet.snowtrace.io/address/"
+}

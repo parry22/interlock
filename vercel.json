@@ -1,0 +1,33 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    {
+      "path": "/api/keeper/tick",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/keeper/index-tick",
+      "schedule": "*/15 * * * *"
+    },
+    {
+      "path": "/api/webhooks/dispatch",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/outcome-definitions/drift",
+      "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/connectors/poll-tick",
+      "schedule": "*/15 * * * *"
+    },
+    {
+      "path": "/api/connectors/ingest-tick",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/connectors/reversal-tick",
+      "schedule": "0 * * * *"
+    }
+  ]
+}

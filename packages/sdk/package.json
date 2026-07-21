@@ -1,0 +1,47 @@
+{
+  "name": "@interlock/sdk",
+  "version": "0.1.0-alpha.1",
+  "description": "TypeScript SDK for Interlock — AI-native billing & outcome settlement on Sui",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./dsl": {
+      "types": "./dist/dsl.d.ts",
+      "import": "./dist/dsl.js"
+    },
+    "./bcs": {
+      "types": "./dist/bcs.d.ts",
+      "import": "./dist/bcs.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "keywords": [
+    "avalanche",
+    "ai",
+    "billing",
+    "blockchain",
+    "outcome-pricing",
+    "interlock"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "^8.0.0",
+    "ajv-formats": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

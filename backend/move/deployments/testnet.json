@@ -1,0 +1,68 @@
+{
+  "network": "testnet",
+  "rpc": "https://fullnode.testnet.sui.io:443",
+  "publishedAt": "2026-05-24T08:00:00Z",
+  "txDigest": "FhEygEmtwDboEq3ZYruQLwnPhUb6C7Yvd76wUHXcEqwv",
+  "packageId": "0xde20ecfbc8cd105c471d735493616aa3fb29928747182d5260fd3379c0eb8534",
+  "packageVersion": "v2 (dev-signer path added)",
+  "previousPackageId": "0x0e6a08aa50fd80129d8ae83b0a3ccdee3e7becdce84785f96f547e09fd52ca6d",
+  "previousPackageNote": "v1 — superseded; lacks `verify_dev_attestations` and `settle_workflow_dev`. Do not use.",
+  "modules": [
+    "attestation",
+    "escrow",
+    "execution",
+    "outcome",
+    "quote",
+    "registry",
+    "settlement",
+    "types",
+    "workflow"
+  ],
+  "deployer": "0xa7d0740b247a14ea578bf6f65b352d56e4fa6fdc8f69a6ce4b1276513bb85d2c",
+  "objects": {
+    "adminCap": {
+      "id": "0x8a4897751b1319d7d5f9ff014344e8749b6103fdd19102614dfbd2f7d39cfb09",
+      "type": "0xde20ecfbc8cd105c471d735493616aa3fb29928747182d5260fd3379c0eb8534::registry::AdminCap",
+      "owner": "0xa7d0740b247a14ea578bf6f65b352d56e4fa6fdc8f69a6ce4b1276513bb85d2c"
+    },
+    "upgradeCap": {
+      "id": "0x221bc869a198a96504c846ac4cab0119e88f5d43df75f107f076deb80c362e54",
+      "type": "0x2::package::UpgradeCap",
+      "owner": "0xa7d0740b247a14ea578bf6f65b352d56e4fa6fdc8f69a6ce4b1276513bb85d2c"
+    },
+    "providerRegistry": {
+      "id": "0xc4e7e852595010838fae7da71d99433831327ed56f38e93494441665ada726ea",
+      "type": "0xde20ecfbc8cd105c471d735493616aa3fb29928747182d5260fd3379c0eb8534::registry::ProviderRegistry",
+      "owner": "shared"
+    }
+  },
+  "explorerUrl": "https://suiscan.xyz/testnet/tx/FhEygEmtwDboEq3ZYruQLwnPhUb6C7Yvd76wUHXcEqwv",
+  "hackathonMode": {
+    "enabled": true,
+    "devSignerPath": true,
+    "notes": "Use `attestation::verify_and_record_outcome_dev` and `settlement::settle_workflow_dev` for the hackathon flow. Register dev signer pubkeys via `registry::allow_dev_signer`.",
+    "activeProduct": {
+      "id": "0x4e888cdebddbc7914f855eb3a2ae4d7b667c6451dd2d228e9910201263b6dcef",
+      "slug": "interlock-hackathon-demo",
+      "agent_company_address": "0xa7d0740b247a14ea578bf6f65b352d56e4fa6fdc8f69a6ce4b1276513bb85d2c",
+      "fee_bps": 500,
+      "fee_cap": 10000000,
+      "fee_max_bps": 1000,
+      "min_attestations": 1,
+      "failure_policy": "full_refund (0)"
+    },
+    "activeDevSigner": {
+      "pubkeyHex": "45b327dbafb1bc4b4864deb8e40f91c3a76c73a2a888704cdcebf739fefe663d",
+      "registeredOnProduct": "0x4e888cdebddbc7914f855eb3a2ae4d7b667c6451dd2d228e9910201263b6dcef",
+      "privateKeyLocation": ".env.local (gitignored) — INTERLOCK_DEV_SIGNER_PRIVKEY",
+      "role": "primary"
+    },
+    "secondaryDevSigner": {
+      "pubkeyHex": "2a5d722651643c66c28cfb6cdfdb79a144411de2e2d1c977702e9b0d68592c02",
+      "registeredOnProduct": "0x4e888cdebddbc7914f855eb3a2ae4d7b667c6451dd2d228e9910201263b6dcef",
+      "privateKeyLocation": ".env.local (gitignored) — INTERLOCK_DEV_SIGNER_PRIVKEY_2",
+      "role": "secondary",
+      "purpose": "M-of-N defense-in-depth demonstration. Product.min_attestations is currently 1; both pubkeys are accepted for the demo. To require both, would need a set_min_attestations admin function in registry.move (currently min_attestations is only set at create_product time)."
+    }
+  }
+}
