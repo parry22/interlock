@@ -16,6 +16,7 @@ import {
 } from "@/lib/db/queries";
 import { formatSui, marginPercent, relativeTime, shortenAddress } from "@/lib/interlock/format";
 import { effectiveOnChainAddress, getCurrentUser } from "@/lib/interlock/session";
+import { redirect } from "next/navigation";
 
 const SUI_DECIMALS = 6; // USDC base units
 
@@ -111,11 +112,13 @@ function LiveActivityCard({ activities }: { activities: Activity[] }) {
 }
 
 export default async function Home() {
-  // Auth is disabled for now (see proxy.ts) — anyone can load the dashboard.
-  // Signed-in users still get their own data scoped; everyone else sees
-  // unscoped, platform-wide activity.
+  // proxy.ts already blocks unauthenticated visitors, but RSCs are not
+  // guaranteed to run only after proxy in every Next codepath (cached
+  // /_next/data routes notably bypass it). Re-check here.
   const user = await getCurrentUser();
-  const scope = user ? { customer: effectiveOnChainAddress(user) } : {};
+  if (!user) redirect("/?signin=1&next=/dashboard");
+
+  const scope = { customer: effectiveOnChainAddress(user) };
   const [stats, workflows, customers, disputes] = await Promise.all([
     dashboardStats(scope).catch(() => null),
     listWorkflows({ limit: 20, ...scope }).catch(() => []),

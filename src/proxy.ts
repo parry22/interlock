@@ -3,23 +3,21 @@
 // In Next 16 this file replaces `middleware.ts` (renamed to `proxy.ts`, see
 // node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md).
 //
-// STATUS: Google auth gating is DISABLED for now — every route is open,
-// including /dashboard and the rest of PROTECTED_PREFIXES below. The landing
-// CTA now links straight to /dashboard instead of triggering sign-in.
-// Pages/queries that used to require a session (e.g. dashboard/page.tsx) fall
-// back to unscoped/platform-wide data when there's no `interlock.user` cookie.
+// Behavior:
+//   • Anyone can hit the landing page (/), marketing pages, /auth/* (OAuth
+//     callback), and /api/* (the callback page POSTs to /api/auth/google/verify
+//     before the cookie exists).
+//   • Visiting an authenticated route without the `interlock.user` cookie
+//     redirects back to / so the landing CTA can re-trigger sign-in.
 //
-// To re-enable: restore the commented-out body of proxy() below.
-//
-// Cookie spoofing note (still true if re-enabled): passing this gate only
-// proves you sent SOME identity cookie. Authorisation (whose data you can
-// see) is enforced server-side by every API route + RSC reading the same
-// cookie via getCurrentUser().
+// Cookie spoofing note: passing this gate only proves you sent SOME identity
+// cookie. Authorisation (whose data you can see) is enforced server-side by
+// every API route + RSC reading the same cookie via getCurrentUser().
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// import { INTERLOCK_USER_COOKIE } from "@/lib/interlock/session";
+import { INTERLOCK_USER_COOKIE } from "@/lib/interlock/session";
 
 const PROTECTED_PREFIXES = [
   "/dashboard",
@@ -34,27 +32,24 @@ const PROTECTED_PREFIXES = [
   "/agents",
   "/marketplace",
 ];
-void PROTECTED_PREFIXES; // kept for when the gate below is re-enabled
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- kept for the commented-out re-enable path below
-export function proxy(_request: NextRequest): NextResponse {
-  return NextResponse.next();
+function isProtected(pathname: string): boolean {
+  return PROTECTED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
 
-  // --- previous gated behavior, restore to re-enable auth ---
-  // const { pathname } = _request.nextUrl;
-  // const isProtected = PROTECTED_PREFIXES.some(
-  //   (p) => pathname === p || pathname.startsWith(`${p}/`),
-  // );
-  // if (!isProtected) return NextResponse.next();
-  //
-  // const cookie = _request.cookies.get(INTERLOCK_USER_COOKIE);
-  // if (cookie?.value) return NextResponse.next();
-  //
-  // const url = _request.nextUrl.clone();
-  // url.pathname = "/";
-  // url.searchParams.set("signin", "1");
-  // url.searchParams.set("next", pathname);
-  // return NextResponse.redirect(url);
+export function proxy(request: NextRequest): NextResponse {
+  const { pathname } = request.nextUrl;
+  if (!isProtected(pathname)) return NextResponse.next();
+
+  const cookie = request.cookies.get(INTERLOCK_USER_COOKIE);
+  if (cookie?.value) return NextResponse.next();
+
+  // Bounce back to landing with a hint so the CTA can auto-open the OAuth flow.
+  const url = request.nextUrl.clone();
+  url.pathname = "/";
+  url.searchParams.set("signin", "1");
+  url.searchParams.set("next", pathname);
+  return NextResponse.redirect(url);
 }
 
 export const config = {
